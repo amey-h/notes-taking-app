@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#e53935</color>
+    <color name="colorPrimaryDark">#e53935</color>
+    <color name="colorAccent">#3d5afe</color>
+    <color name="background">#fafafa</color>
+    <color name="main_text_color">#333333</color>
+
+    <color name="sdk_background_gray">#FAFAFA</color>
+    <color name="main_text_color_disabled">#999999</color>
+    <color name="control_highlight">#999999</color>
+    <color name="control_normal">#999999</color>
+    <color name="switch_track_inactive">#999999</color>
+    <color name="vodafone_green">#A9B400</color>
+    <color name="dark_gray">#616161</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="sdk_light_gray">#EEEEEE</color>
+    <color name="sdk_lighter_gray">#666666</color>
+    <color name="back_gray_translucent">#EFFAFAFA</color>
+    <color name="success_color">#128B03</color>
+    <color name="fingerprint_register_color">#009B82</color>
+</resources>

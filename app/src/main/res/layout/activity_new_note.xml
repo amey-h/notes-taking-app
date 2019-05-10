@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
+    android:layout_margin="10dp">
+
+    <EditText
+        android:id="@+id/edittext_note_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Title"
+        android:singleLine="true"
+        android:textColor="@color/main_text_color"
+        android:textSize="18sp"
+        android:padding="5dp"
+        android:background="@null"/>
+
+    <EditText
+        android:id="@+id/edittext_note_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Your notes here!"
+        android:textColor="@color/dark_gray"
+        android:textSize="16sp"
+        android:padding="5dp"
+        android:layout_below="@+id/edittext_note_title"
+        android:layout_marginTop="10dp"
+        android:background="@null"/>
+
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:text="Save"
+        android:background="@color/main_text_color"
+        android:textColor="@color/white"/>
+
+</RelativeLayout>
