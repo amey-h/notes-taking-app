@@ -13,6 +13,11 @@ import org.ameyapps.notes.model.NoteInfo
 import java.text.DateFormat
 import java.util.*
 
+import android.graphics.drawable.GradientDrawable
+
+import android.graphics.Color
+
+
 class NewNoteActivity : AppCompatActivity() {
 
     companion object {
@@ -67,14 +72,39 @@ class NewNoteActivity : AppCompatActivity() {
         val circleSize = resources.getDimensionPixelSize(R.dimen.circle_size)
         Log.d(TAG, "CircleSize: $circleSize")
 
-        val circleMargin = resources.getDimensionPixelSize(R.dimen.circle_size)
+        val circleMargin = resources.getDimensionPixelSize(R.dimen.circle_margin)
 
-        for (i in 0..3) {
+        for (i in 0..7) {
             val imageButton = ImageButton(this@NewNoteActivity)
             val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(circleSize, circleSize)
             params.setMargins(0, 0, circleMargin, circleMargin)
             imageButton.layoutParams = params
             imageButton.background = resources.getDrawable(R.drawable.circular_button_backg, null)
+            val bgShape = imageButton.background as GradientDrawable
+            if (i == 0) {
+                bgShape.setColor(resources.getColor(R.color.high_blue))
+            }
+            if (i == 1) {
+                bgShape.setColor(resources.getColor(R.color.high_yellow))
+            }
+            if (i == 2) {
+                bgShape.setColor(resources.getColor(R.color.high_green))
+            }
+            if (i == 3) {
+                bgShape.setColor(resources.getColor(R.color.high_orange))
+            }
+            if (i == 4) {
+                bgShape.setColor(resources.getColor(R.color.high_purple))
+            }
+            if (i == 5) {
+                bgShape.setColor(resources.getColor(R.color.high_gray))
+            }
+            if (i == 6) {
+                bgShape.setColor(resources.getColor(R.color.high_teal))
+            }
+            if (i == 7) {
+                bgShape.setColor(resources.getColor(R.color.high_brown))
+            }
             imageButton.id = i
             linearLayout.addView(imageButton)
         }

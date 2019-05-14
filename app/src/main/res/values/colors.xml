@@ -20,4 +20,14 @@
     <color name="back_gray_translucent">#EFFAFAFA</color>
     <color name="success_color">#128B03</color>
     <color name="fingerprint_register_color">#009B82</color>
+
+    <color name="high_yellow">#ffee58</color>
+    <color name="high_orange">#ffa726</color>
+    <color name="high_green">#9ccc65</color>
+    <color name="high_blue">#4fc3f7</color>
+    <color name="high_gray">#e0e0e0</color>
+    <color name="high_purple">#b39ddb</color>
+    <color name="high_teal">#80cbc4</color>
+    <color name="high_brown">#bcaaa4</color>
+
 </resources>
