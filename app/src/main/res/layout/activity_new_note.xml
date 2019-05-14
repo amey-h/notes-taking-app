@@ -1,42 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background"
-    android:layout_margin="10dp">
+    android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/edittext_note_title"
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/background"
+        android:padding="5dp">
+
+        <RelativeLayout
+            android:id="@+id/content_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="7dp">
+
+            <EditText
+                android:id="@+id/edittext_note_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="Title"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/main_text_color"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edittext_note_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edittext_note_title"
+                android:layout_marginTop="10dp"
+                android:background="@null"
+                android:hint="Your notes here!"
+                android:padding="5dp"
+                android:textColor="@color/dark_gray"
+                android:textSize="16sp" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/bottom_sheet_rel_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Title"
-        android:singleLine="true"
-        android:textColor="@color/main_text_color"
-        android:textSize="18sp"
-        android:padding="5dp"
-        android:background="@null"/>
+        android:background="@color/sdk_light_gray"
+        android:padding="15dp"
+        android:visibility="visible">
 
-    <EditText
-        android:id="@+id/edittext_note_description"
+        <LinearLayout
+            android:id="@+id/color_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_action_delete"
+            android:drawablePadding="15dp"
+            android:gravity="center"
+            android:text="Delete"
+            android:textColor="@color/main_text_color"
+            android:textSize="14sp"
+            android:layout_below="@+id/color_linear_layout"/>
+
+        <TextView
+            android:id="@+id/text_copy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_delete"
+            android:layout_marginTop="15dp"
+            android:drawableLeft="@drawable/ic_action_copy"
+            android:drawablePadding="15dp"
+            android:gravity="center"
+            android:text="Copy"
+            android:textColor="@color/main_text_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/text_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_copy"
+            android:layout_marginTop="15dp"
+            android:drawableLeft="@drawable/ic_action_share"
+            android:drawablePadding="15dp"
+            android:gravity="center"
+            android:text="Share"
+            android:textColor="@color/main_text_color"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom_rel_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Your notes here!"
-        android:textColor="@color/dark_gray"
-        android:textSize="16sp"
-        android:padding="5dp"
-        android:layout_below="@+id/edittext_note_title"
-        android:layout_marginTop="10dp"
-        android:background="@null"/>
+        android:background="@color/white"
+        android:padding="10dp">
 
-    <Button
-        android:id="@+id/button_save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
-        android:text="Save"
-        android:background="@color/main_text_color"
-        android:textColor="@color/white"/>
+        <ImageButton
+            android:id="@+id/button_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/ic_action_more" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/text_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Edited at 10:10 AM"
+            android:textColor="@color/main_text_color"
+            android:textSize="15sp" />
+
+        <ImageButton
+            android:id="@+id/button_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_action_save" />
+
+    </RelativeLayout>
+
+</LinearLayout>
