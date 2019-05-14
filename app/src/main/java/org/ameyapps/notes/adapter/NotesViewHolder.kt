@@ -21,11 +21,12 @@ class NotesViewHolder(inflater: LayoutInflater, parent: ViewGroup, var context: 
     init {
         titleTextView = itemView.findViewById(R.id.title_text)
         descriptionTextView = itemView.findViewById(R.id.description_text)
+
+        robotoLightTf = FontsManager().getRobotoLightFont(context = context)
+        robotoRegularTf = FontsManager().getRobotoRegularFont(context = context)
     }
 
     fun bind(noteInfo: NoteInfo) {
-        robotoLightTf = FontsManager().getRobotoLightFont(context = context)
-        robotoRegularTf = FontsManager().getRobotoRegularFont(context = context)
 
         titleTextView?.setText(noteInfo.title);
         titleTextView?.typeface = robotoRegularTf
