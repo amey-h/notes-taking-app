@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.ameyapps.notes.model.NoteInfo
 
-class NotesRecyclerAdapter(val context: Context): RecyclerView.Adapter<NotesViewHolder>() {
+class NotesRecyclerAdapter(val context: Context, val noteInfoList: ArrayList<NoteInfo>): RecyclerView.Adapter<NotesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
         val inflater = LayoutInflater.from(context);
@@ -14,11 +14,11 @@ class NotesRecyclerAdapter(val context: Context): RecyclerView.Adapter<NotesView
     }
 
     override fun getItemCount(): Int {
-        return 10;
+        return noteInfoList.size;
     }
 
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
-        val noteInfo = NoteInfo();
+        val noteInfo = noteInfoList.get(position)
         holder.bind(noteInfo)
     }
 }

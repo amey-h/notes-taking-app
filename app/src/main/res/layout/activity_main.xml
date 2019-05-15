@@ -12,7 +12,8 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        android:visibility="gone">
     </androidx.recyclerview.widget.RecyclerView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -27,6 +28,18 @@
         app:fabSize="auto"
         app:backgroundTint="@color/colorPrimary"
         />
+
+    <TextView
+        android:id="@+id/text_emptymsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty_msg"
+        android:textSize="20sp"
+        android:textColor="@color/main_text_color"
+        android:textStyle="bold"
+        android:layout_centerInParent="true"
+        android:textAlignment="center"
+        android:visibility="gone"/>
 
 
 </RelativeLayout>

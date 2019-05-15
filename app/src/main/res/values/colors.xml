@@ -29,5 +29,22 @@
     <color name="high_purple">#b39ddb</color>
     <color name="high_teal">#80cbc4</color>
     <color name="high_brown">#bcaaa4</color>
+    <color name="hign_pink">#f8bbd0</color>
+    <color name="hign_cyan">#b2ebf2</color>
+
+    <color name="options_text_color">#3C3C3C</color>
+
+    <array name="color_array">
+        <item>@color/high_yellow</item>
+        <item>@color/high_orange</item>
+        <item>@color/high_green</item>
+        <item>@color/high_blue</item>
+        <item>@color/high_gray</item>
+        <item>@color/high_purple</item>
+        <item>@color/high_teal</item>
+        <item>@color/high_brown</item>
+        <item>@color/hign_pink</item>
+        <item>@color/hign_cyan</item>
+    </array>
 
 </resources>

@@ -49,9 +49,9 @@ class NotesDbHelper(context: Context) :
         dbWriter.close()
     }
 
-    fun getNote(): NoteInfo {
+    fun getAllNotes(): ArrayList<NoteInfo> {
 
-        val noteInfo = NoteInfo()
+        val noteList = ArrayList<NoteInfo>()
         val db = readableDatabase
         val selectQuery = "SELECT * FROM $TABLE_NAME"
         var cursor: Cursor? = null
@@ -63,13 +63,15 @@ class NotesDbHelper(context: Context) :
         }
         if (cursor!!.moveToFirst()) {
             do {
+                val noteInfo = NoteInfo()
                 noteInfo.id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID))
                 noteInfo.title = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_TITLE))
                 noteInfo.description = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DESCP))
                 noteInfo.date = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DATE))
+                noteList.add(noteInfo)
             } while (cursor.moveToNext())
         }
         Log.d(TAG, "fetch data from db")
-        return noteInfo
+        return noteList
     }
 }
