@@ -1,4 +1,4 @@
-package org.ameyapps.notes
+package org.ameyapps.notes.activities
 
 import android.content.Intent
 import android.graphics.Typeface
@@ -10,17 +10,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
-import org.ameyapps.notes.activities.NewNoteActivity
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import org.ameyapps.notes.R
 import org.ameyapps.notes.adapter.NotesRecyclerAdapter
 import org.ameyapps.notes.database.NotesDbHelper
-import org.ameyapps.notes.model.NoteInfo
 import org.ameyapps.notes.utils.FontsManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton as FAB
 
-class MainActivity : AppCompatActivity() {
+class NotesHomeActivity : AppCompatActivity() {
 
-    var TAG = MainActivity::class.java.simpleName
+    var TAG = "NotesApp " + NotesHomeActivity::class.java.simpleName
     private var COLUMN_COUNT: Int = 2
     private var robotoLightTf: Typeface? = null
     private var robotoRegularTf: Typeface? = null
@@ -32,10 +31,10 @@ class MainActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
         val fab = findViewById<FAB>(R.id.fab)
         val emptyMsgTextView = findViewById<TextView>(R.id.text_emptymsg)
-        robotoLightTf = FontsManager().getRobotoLightFont(this@MainActivity)
-        robotoRegularTf = FontsManager().getRobotoRegularFont(this@MainActivity)
+        robotoLightTf = FontsManager().getRobotoLightFont(this@NotesHomeActivity)
+        robotoRegularTf = FontsManager().getRobotoRegularFont(this@NotesHomeActivity)
 
-        val dbHelper = NotesDbHelper(this@MainActivity)
+        val dbHelper = NotesDbHelper(this@NotesHomeActivity)
         val notesInfoList = dbHelper.getAllNotes()
 
         if (notesInfoList.isEmpty()) {
@@ -47,14 +46,15 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "notesList size: " + notesInfoList.size)
             recyclerView.visibility = View.VISIBLE
             emptyMsgTextView.visibility = View.GONE
-            val notesAdapter = NotesRecyclerAdapter(this@MainActivity, notesInfoList)
-            val gridLayoutManager = GridLayoutManager(this@MainActivity, COLUMN_COUNT);
-            recyclerView.setLayoutManager(gridLayoutManager);
+            val notesAdapter = NotesRecyclerAdapter(this@NotesHomeActivity, notesInfoList)
+            //val gridLayoutManager = GridLayoutManager(this@NotesHomeActivity, COLUMN_COUNT);
+            val staggeredGridLayoutMgr = StaggeredGridLayoutManager(COLUMN_COUNT, LinearLayoutManager.VERTICAL)
+            recyclerView.layoutManager = staggeredGridLayoutMgr;
             recyclerView.adapter = notesAdapter
         }
 
         fab.setOnClickListener {
-            val intent = Intent(this@MainActivity, NewNoteActivity::class.java)
+            val intent = Intent(this@NotesHomeActivity, NewNoteActivity::class.java)
             startActivity(intent)
         }
     }

@@ -18,39 +18,45 @@ class NotesDbHelper(context: Context) :
         const val COLUMN_NAME_TITLE = "Title"
         const val COLUMN_NAME_DESCP = "Description"
         const val COLUMN_NAME_DATE = "Date"
-        const val COLUMN_ID = "Id"
+        const val COLUMN_ID = "_ID"
+        const val COLUMN_NAME_COLOR = "Color"
         const val DATABASE_VERSION = 1
-        val TAG = NotesDbHelper::class.java.simpleName
+        val TAG = "NotesApp " + NotesDbHelper::class.java.simpleName
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
 
         val CREATE_NOTES_TABLE = ("CREATE TABLE " + TABLE_NAME + "("
-                + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_NAME_TITLE + " TEXT,"
+                + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_NAME_TITLE + " TEXT,"
                 + COLUMN_NAME_DESCP + " TEXT,"
-                + COLUMN_NAME_DATE + " TEXT" + ")")
+                + COLUMN_NAME_DATE + " TEXT, "
+                + COLUMN_NAME_COLOR + " TEXT" + ")")
         db?.execSQL(CREATE_NOTES_TABLE)
+        Log.d(TAG, "Table Created")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME)
         onCreate(db)
+        Log.d(TAG, "onUpgrade called.")
     }
 
     fun addNote(noteInfo: NoteInfo) {
+        Log.d(TAG, "addNote")
         val dbWriter = writableDatabase
         val contentValues = ContentValues()
-        contentValues.put(COLUMN_ID, noteInfo.id)
+        //contentValues.put(COLUMN_ID, noteInfo.id)
         contentValues.put(COLUMN_NAME_TITLE, noteInfo.title)
         contentValues.put(COLUMN_NAME_DESCP, noteInfo.description)
         contentValues.put(COLUMN_NAME_DATE, noteInfo.date)
-        dbWriter.insert(TABLE_NAME, null, contentValues);
-        Log.d(TAG, "Note added to db.")
+        val insValue = dbWriter.insert(TABLE_NAME, null, contentValues);
+        Log.d(TAG, "Note added to db: $insValue")
         dbWriter.close()
     }
 
     fun getAllNotes(): ArrayList<NoteInfo> {
 
+        Log.d(TAG, "getAllNotes")
         val noteList = ArrayList<NoteInfo>()
         val db = readableDatabase
         val selectQuery = "SELECT * FROM $TABLE_NAME"
@@ -68,10 +74,12 @@ class NotesDbHelper(context: Context) :
                 noteInfo.title = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_TITLE))
                 noteInfo.description = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DESCP))
                 noteInfo.date = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DATE))
+                noteInfo.color = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COLOR))
                 noteList.add(noteInfo)
             } while (cursor.moveToNext())
         }
-        Log.d(TAG, "fetch data from db")
+        Log.d(TAG, "fetched data from db: ${noteList.size}")
+        db.close()
         return noteList
     }
 }

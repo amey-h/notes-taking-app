@@ -24,12 +24,15 @@ class NewNoteActivity : AppCompatActivity() {
 
     companion object {
         val TAG = "NotesApp " + NewNoteActivity::class.java.simpleName
+        var selectedColor: Int? = -1
     }
+
+    private var noteRootLinLayout: LinearLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_note)
-
+        Log.d(TAG, "Create new note")
         val robotoLightTf = FontsManager().getRobotoLightFont(this@NewNoteActivity)
         val robotoRegularTf = FontsManager().getRobotoRegularFont(this@NewNoteActivity)
 
@@ -39,7 +42,7 @@ class NewNoteActivity : AppCompatActivity() {
         val moreButton = findViewById<ImageButton>(R.id.button_more)
         val bottomSheetLayout = findViewById<RelativeLayout>(R.id.bottom_sheet_rel_layout)
         val linearLayout = findViewById<LinearLayout>(R.id.color_linear_layout)
-        val noteRootLinLayout = findViewById<LinearLayout>(R.id.note_root_layout)
+        noteRootLinLayout = findViewById<LinearLayout>(R.id.note_root_layout)
         val copyTextView = findViewById<TextView>(R.id.text_copy)
         val deleteTextView = findViewById<TextView>(R.id.text_delete)
         val shareTextView = findViewById<TextView>(R.id.text_share)
@@ -61,10 +64,11 @@ class NewNoteActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener() {
             val noteInfo = NoteInfo()
-            noteInfo.id = 1
+            //noteInfo.id = 1
             noteInfo.title = titleEditText.text.toString()
             noteInfo.description = descpEditText.text.toString()
             noteInfo.date = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
+            noteInfo.color = selectedColor.toString()
             notesDbHelper.addNote(noteInfo)
             Log.d(TAG, "Note saved")
         }
@@ -107,6 +111,11 @@ class NewNoteActivity : AppCompatActivity() {
 
             imageButton.setOnClickListener() {
                 Log.d(TAG, "Click item position: $i")
+                if(noteRootLinLayout != null) {
+                    selectedColor = colorArray[i]
+                    Log.d(TAG, "Selected Color: $selectedColor")
+                    noteRootLinLayout?.setBackgroundColor(selectedColor!!)
+                }
             }
         }
     }
