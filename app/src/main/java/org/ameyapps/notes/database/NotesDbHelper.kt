@@ -30,7 +30,7 @@ class NotesDbHelper(context: Context) :
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_NAME_TITLE + " TEXT,"
                 + COLUMN_NAME_DESCP + " TEXT,"
                 + COLUMN_NAME_DATE + " TEXT, "
-                + COLUMN_NAME_COLOR + " TEXT" + ")")
+                + COLUMN_NAME_COLOR + " INTEGER" + ")")
         db?.execSQL(CREATE_NOTES_TABLE)
         Log.d(TAG, "Table Created")
     }
@@ -49,6 +49,7 @@ class NotesDbHelper(context: Context) :
         contentValues.put(COLUMN_NAME_TITLE, noteInfo.title)
         contentValues.put(COLUMN_NAME_DESCP, noteInfo.description)
         contentValues.put(COLUMN_NAME_DATE, noteInfo.date)
+        contentValues.put(COLUMN_NAME_COLOR, noteInfo.color)
         val insValue = dbWriter.insert(TABLE_NAME, null, contentValues);
         Log.d(TAG, "Note added to db: $insValue")
         dbWriter.close()
@@ -74,11 +75,12 @@ class NotesDbHelper(context: Context) :
                 noteInfo.title = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_TITLE))
                 noteInfo.description = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DESCP))
                 noteInfo.date = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DATE))
-                noteInfo.color = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_COLOR))
+                noteInfo.color = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_COLOR))
                 noteList.add(noteInfo)
+                Log.d(TAG, "fetched data from db date/color: ${noteInfo.date}, ${noteInfo.color}")
             } while (cursor.moveToNext())
         }
-        Log.d(TAG, "fetched data from db: ${noteList.size}")
+        Log.d(TAG, "fetched data from db: ${noteList.size}, ")
         db.close()
         return noteList
     }

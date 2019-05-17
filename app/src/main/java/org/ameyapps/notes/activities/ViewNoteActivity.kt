@@ -1,74 +1,84 @@
 package org.ameyapps.notes.activities
 
 import android.annotation.SuppressLint
-import android.content.res.TypedArray
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
+import org.ameyapps.notes.BaseActivity
 import org.ameyapps.notes.R
 import org.ameyapps.notes.database.NotesDbHelper
 import org.ameyapps.notes.model.NoteInfo
-import java.text.DateFormat
-import java.util.*
-
-import android.graphics.drawable.GradientDrawable
 import org.ameyapps.notes.utils.Const
-
-
-import org.ameyapps.notes.utils.FontsManager
 import org.ameyapps.notes.utils.Utils
 
-
-class NewNoteActivity : AppCompatActivity() {
+class ViewNoteActivity : BaseActivity() {
 
     companion object {
-        val TAG = "NotesApp " + NewNoteActivity::class.java.simpleName
+        val TAG = "NotesApp " + ViewNoteActivity::class.java.simpleName
         var selectedColor: Int = -1
     }
 
     private var noteRootLinLayout: LinearLayout? = null
+    private var mNoteInfo: NoteInfo? = null
+    private var titleEditText: TextView? = null
+    private var descpEditText: TextView? = null
+    private var timeTextView: TextView? = null
+
+    override fun getResourceLayout(): Int {
+        return R.layout.activity_view_note
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_note)
-        Log.d(TAG, "Create new note")
 
-        val titleEditText = findViewById<EditText>(R.id.edittext_note_title)
-        val descpEditText = findViewById<EditText>(R.id.edittext_note_description)
-        val saveButton = findViewById<ImageButton>(R.id.button_save)
-        val moreButton = findViewById<ImageButton>(R.id.button_more)
-        val bottomSheetLayout = findViewById<RelativeLayout>(R.id.bottom_sheet_rel_layout)
-        val linearLayout = findViewById<LinearLayout>(R.id.color_linear_layout)
-        noteRootLinLayout = findViewById<LinearLayout>(R.id.note_root_layout)
-        val copyTextView = findViewById<TextView>(R.id.text_copy)
-        val deleteTextView = findViewById<TextView>(R.id.text_delete)
-        val shareTextView = findViewById<TextView>(R.id.text_share)
-        val textTime = findViewById<TextView>(R.id.text_time)
+        val bundle: Bundle = this.intent.extras
+        mNoteInfo = bundle.getSerializable(Const.NOTE_INFO_KEY) as NoteInfo
+
+        noteRootLinLayout = findViewById<LinearLayout>(R.id.vn_note_root_layout)
+        titleEditText = findViewById<EditText>(R.id.vn_edittext_note_title)
+        descpEditText = findViewById<EditText>(R.id.vn_edittext_note_description)
+        timeTextView = findViewById<TextView>(R.id.vn_text_time)
+
+        val saveButton = findViewById<ImageButton>(R.id.vn_button_save)
+        val moreButton = findViewById<ImageButton>(R.id.vn_button_more)
+        val bottomSheetLayout = findViewById<RelativeLayout>(R.id.vn_bottom_sheet_rel_layout)
+        val linearLayout = findViewById<LinearLayout>(R.id.vn_color_linear_layout)
+        val copyTextView = findViewById<TextView>(R.id.vn_text_copy)
+        val deleteTextView = findViewById<TextView>(R.id.vn_text_delete)
+        val shareTextView = findViewById<TextView>(R.id.vn_text_share)
 
         copyTextView.typeface = Const.robotoRegularTf
         deleteTextView.typeface = Const.robotoRegularTf
         shareTextView.typeface = Const.robotoRegularTf
-        titleEditText.typeface = Const.robotoRegularTf
-        descpEditText.typeface = Const.robotoLightTf
-        textTime.typeface = Const.robotoRegularTf
+        titleEditText?.typeface = Const.robotoRegularTf
+        descpEditText?.typeface = Const.robotoLightTf
+        timeTextView?.typeface = Const.robotoRegularTf
 
         bottomSheetLayout.visibility = View.GONE
 
-        val notesDbHelper = NotesDbHelper(this@NewNoteActivity)
+        val notesDbHelper = NotesDbHelper(this@ViewNoteActivity)
+
+        if(mNoteInfo != null) {
+            Log.d(TAG, "NoteInfo title/descp : ${mNoteInfo?.title}, ${mNoteInfo?.description}")
+            Log.d(TAG, "NoteInfo date/color: ${mNoteInfo?.date}, ${mNoteInfo?.color}")
+
+            setDataAndView()
+        } else {
+           Log.w(TAG, "Error occurred while displaying data.")
+        }
 
         saveButton.setOnClickListener() {
             val noteInfo = NoteInfo()
             //noteInfo.id = 1
-            noteInfo.title = titleEditText.text.toString()
-            noteInfo.description = descpEditText.text.toString()
+            noteInfo.title = titleEditText?.text.toString()
+            noteInfo.description = descpEditText?.text.toString()
             noteInfo.date = Utils.getDate()
             noteInfo.color = selectedColor
             notesDbHelper.addNote(noteInfo)
-            Log.d(TAG, "Note saved: ${noteInfo.title}, ${noteInfo.description}, ${noteInfo.date}, ${noteInfo.color}")
-            Utils.showToast(this@NewNoteActivity, "Note Saved")
+            Log.d(TAG, "Note saved")
+            Utils.showToast(this@ViewNoteActivity, "Note Saved")
         }
 
         moreButton.setOnClickListener() {
@@ -79,9 +89,14 @@ class NewNoteActivity : AppCompatActivity() {
                 generateCircularColorLayout(linearLayout)
             }
         }
-
     }
 
+    private fun setDataAndView() {
+        noteRootLinLayout?.setBackgroundColor(mNoteInfo?.color!!)
+        titleEditText?.text = mNoteInfo?.title
+        descpEditText?.text = mNoteInfo?.description
+        timeTextView?.text = "Last edit on ${mNoteInfo?.date}"
+    }
 
     @SuppressLint("NewApi")
     private fun generateCircularColorLayout(linearLayout: LinearLayout) {
@@ -99,7 +114,7 @@ class NewNoteActivity : AppCompatActivity() {
 
         for (i in 0 until ta.length()) {
 
-            val imageButton = ImageButton(this@NewNoteActivity)
+            val imageButton = ImageButton(this@ViewNoteActivity)
             imageButton.id = i
             val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(circleSize, circleSize)
             params.setMargins(0, 0, circleMargin, circleMargin)
@@ -113,9 +128,9 @@ class NewNoteActivity : AppCompatActivity() {
 
             imageButton.setOnClickListener() {
                 Log.d(TAG, "Click item position: $i")
-                if(noteRootLinLayout != null) {
+                if (noteRootLinLayout != null) {
                     selectedColor = colorArray[i]
-                    Log.d(TAG, "Selected Color: $selectedColor")
+                    Log.d(TAG, "Selected Color: ${selectedColor}")
                     noteRootLinLayout?.setBackgroundColor(selectedColor!!)
                 }
             }

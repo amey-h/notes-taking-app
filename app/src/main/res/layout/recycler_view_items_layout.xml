@@ -4,6 +4,7 @@
     android:id="@+id/carditem_root_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="3dp"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
