@@ -1,6 +1,8 @@
 package org.ameyapps.notes.activities
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
@@ -34,7 +36,9 @@ class ViewNoteActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         val bundle: Bundle = this.intent.extras
-        mNoteInfo = bundle.getSerializable(Const.NOTE_INFO_KEY) as NoteInfo
+        if(bundle != null) {
+            mNoteInfo = bundle.getSerializable(Const.NOTE_INFO_KEY) as NoteInfo
+        }
 
         noteRootLinLayout = findViewById<LinearLayout>(R.id.vn_note_root_layout)
         titleEditText = findViewById<EditText>(R.id.vn_edittext_note_title)
@@ -63,7 +67,7 @@ class ViewNoteActivity : BaseActivity() {
         if(mNoteInfo != null) {
             Log.d(TAG, "NoteInfo title/descp : ${mNoteInfo?.title}, ${mNoteInfo?.description}")
             Log.d(TAG, "NoteInfo date/color: ${mNoteInfo?.date}, ${mNoteInfo?.color}")
-
+            selectedColor = mNoteInfo?.color!!
             setDataAndView()
         } else {
            Log.w(TAG, "Error occurred while displaying data.")
@@ -71,14 +75,17 @@ class ViewNoteActivity : BaseActivity() {
 
         saveButton.setOnClickListener() {
             val noteInfo = NoteInfo()
-            //noteInfo.id = 1
+            noteInfo.id = mNoteInfo?.id!!
             noteInfo.title = titleEditText?.text.toString()
             noteInfo.description = descpEditText?.text.toString()
             noteInfo.date = Utils.getDate()
             noteInfo.color = selectedColor
-            notesDbHelper.addNote(noteInfo)
-            Log.d(TAG, "Note saved")
-            Utils.showToast(this@ViewNoteActivity, "Note Saved")
+            notesDbHelper.updateNote(noteInfo)
+            Log.d(TAG, "Note updated")
+            Utils.showToast(this@ViewNoteActivity, "Note Updated")
+            val returnIntent = Intent()//Intent(this@NewNoteActivity, NewNoteActivity::class.java)
+            setResult(Activity.RESULT_OK, returnIntent)
+            finish()
         }
 
         moreButton.setOnClickListener() {

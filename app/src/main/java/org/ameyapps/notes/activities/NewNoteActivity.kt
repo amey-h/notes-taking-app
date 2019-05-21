@@ -1,6 +1,8 @@
 package org.ameyapps.notes.activities
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.content.res.TypedArray
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +22,7 @@ import org.ameyapps.notes.utils.Const
 
 import org.ameyapps.notes.utils.FontsManager
 import org.ameyapps.notes.utils.Utils
+import kotlin.random.Random
 
 
 class NewNoteActivity : AppCompatActivity() {
@@ -61,14 +64,20 @@ class NewNoteActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener() {
             val noteInfo = NoteInfo()
-            //noteInfo.id = 1
+            noteInfo.id = Random.nextInt()
             noteInfo.title = titleEditText.text.toString()
             noteInfo.description = descpEditText.text.toString()
             noteInfo.date = Utils.getDate()
             noteInfo.color = selectedColor
             notesDbHelper.addNote(noteInfo)
-            Log.d(TAG, "Note saved: ${noteInfo.title}, ${noteInfo.description}, ${noteInfo.date}, ${noteInfo.color}")
+            Log.d(
+                TAG,
+                "Note saved: ${noteInfo.id}, ${noteInfo.title}, ${noteInfo.description}, ${noteInfo.date}, ${noteInfo.color}"
+            )
             Utils.showToast(this@NewNoteActivity, "Note Saved")
+            val returnIntent = Intent()//Intent(this@NewNoteActivity, NewNoteActivity::class.java)
+            setResult(Activity.RESULT_OK, returnIntent)
+            finish()
         }
 
         moreButton.setOnClickListener() {
@@ -113,7 +122,7 @@ class NewNoteActivity : AppCompatActivity() {
 
             imageButton.setOnClickListener() {
                 Log.d(TAG, "Click item position: $i")
-                if(noteRootLinLayout != null) {
+                if (noteRootLinLayout != null) {
                     selectedColor = colorArray[i]
                     Log.d(TAG, "Selected Color: $selectedColor")
                     noteRootLinLayout?.setBackgroundColor(selectedColor!!)

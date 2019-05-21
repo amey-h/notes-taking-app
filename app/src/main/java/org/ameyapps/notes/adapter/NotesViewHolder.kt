@@ -1,5 +1,6 @@
 package org.ameyapps.notes.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
@@ -20,7 +21,7 @@ import org.ameyapps.notes.model.NoteInfo
 import org.ameyapps.notes.utils.Const
 import org.ameyapps.notes.utils.FontsManager
 
-class NotesViewHolder(inflater: LayoutInflater, parent: ViewGroup, var context: Context) :
+class NotesViewHolder(inflater: LayoutInflater, parent: ViewGroup, var context: Activity) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.recycler_view_items_layout, parent, false)),
     View.OnClickListener {
 
@@ -44,6 +45,7 @@ class NotesViewHolder(inflater: LayoutInflater, parent: ViewGroup, var context: 
     fun bind(noteInfo: NoteInfo) {
 
         mNoteInfo = noteInfo
+        mNoteInfo?.id = noteInfo.id
         mNoteInfo?.title = noteInfo.title
         mNoteInfo?.description = noteInfo.description
         mNoteInfo?.date = noteInfo.date
@@ -73,7 +75,7 @@ class NotesViewHolder(inflater: LayoutInflater, parent: ViewGroup, var context: 
         val bundle = Bundle()
         bundle.putSerializable(Const.NOTE_INFO_KEY, mNoteInfo)
         intent.putExtras(bundle)
-        context.startActivity(intent)
+        context.startActivityForResult(intent, Const.NEW_NOTE_REQCODE)
 
     }
 }

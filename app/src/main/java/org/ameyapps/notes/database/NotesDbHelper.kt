@@ -18,7 +18,7 @@ class NotesDbHelper(context: Context) :
         const val COLUMN_NAME_TITLE = "Title"
         const val COLUMN_NAME_DESCP = "Description"
         const val COLUMN_NAME_DATE = "Date"
-        const val COLUMN_ID = "_ID"
+        const val COLUMN_ID = "Id"
         const val COLUMN_NAME_COLOR = "Color"
         const val DATABASE_VERSION = 1
         val TAG = "NotesApp " + NotesDbHelper::class.java.simpleName
@@ -27,7 +27,7 @@ class NotesDbHelper(context: Context) :
     override fun onCreate(db: SQLiteDatabase?) {
 
         val CREATE_NOTES_TABLE = ("CREATE TABLE " + TABLE_NAME + "("
-                + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_NAME_TITLE + " TEXT,"
+                + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_NAME_TITLE + " TEXT,"
                 + COLUMN_NAME_DESCP + " TEXT,"
                 + COLUMN_NAME_DATE + " TEXT, "
                 + COLUMN_NAME_COLOR + " INTEGER" + ")")
@@ -45,7 +45,7 @@ class NotesDbHelper(context: Context) :
         Log.d(TAG, "addNote")
         val dbWriter = writableDatabase
         val contentValues = ContentValues()
-        //contentValues.put(COLUMN_ID, noteInfo.id)
+        contentValues.put(COLUMN_ID, noteInfo.id)
         contentValues.put(COLUMN_NAME_TITLE, noteInfo.title)
         contentValues.put(COLUMN_NAME_DESCP, noteInfo.description)
         contentValues.put(COLUMN_NAME_DATE, noteInfo.date)
@@ -77,11 +77,34 @@ class NotesDbHelper(context: Context) :
                 noteInfo.date = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DATE))
                 noteInfo.color = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_COLOR))
                 noteList.add(noteInfo)
-                Log.d(TAG, "fetched data from db date/color: ${noteInfo.date}, ${noteInfo.color}")
+                Log.d(TAG, "fetched data from db date/color: ${noteInfo.id}, ${noteInfo.date}, ${noteInfo.color}")
             } while (cursor.moveToNext())
         }
         Log.d(TAG, "fetched data from db: ${noteList.size}, ")
         db.close()
         return noteList
+    }
+
+    fun updateNote(noteInfo: NoteInfo) {
+        Log.d(TAG, "update Note")
+        val dbWriter = writableDatabase
+        val contentValues = ContentValues()
+        //contentValues.put(COLUMN_ID, noteInfo.id)
+        contentValues.put(COLUMN_NAME_TITLE, noteInfo.title)
+        contentValues.put(COLUMN_NAME_DESCP, noteInfo.description)
+        contentValues.put(COLUMN_NAME_DATE, noteInfo.date)
+        contentValues.put(COLUMN_NAME_COLOR, noteInfo.color)
+        val selection = COLUMN_ID + " = ?"
+        Log.d(TAG, "selection: $selection")
+        val selectionArgs = arrayOf(noteInfo.id.toString())
+        Log.d(TAG, "selectionArgs: ${selectionArgs}")
+        val updateVal = dbWriter.update(TABLE_NAME, contentValues, selection, selectionArgs)
+        Log.d(TAG, "Update Value: ${updateVal}")
+        if (updateVal >= 1) {
+            Log.d(TAG, "Note updated")
+        } else {
+            Log.w(TAG, "Note not updated")
+        }
+        dbWriter.close()
     }
 }
