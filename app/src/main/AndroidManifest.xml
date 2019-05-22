@@ -15,19 +15,22 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".activities.NewNoteActivity"
+            android:label="@string/label_new_note"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".activities.ViewNoteActivity"
+            android:label="@string/label_note_details"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="stateHidden" />
 
     </application>
 

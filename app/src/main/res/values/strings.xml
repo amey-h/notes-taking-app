@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">NoteTaking</string>
     <string name="empty_msg">No notes yet? \n Start adding notes</string>
-    <string name="note_title">Title</string>
+    <string name="note_title" translatable="false">Title</string>
     <string name="note_description">Your notes here!</string>
     <string name="label_copy">Copy</string>
     <string name="label_delete">Delete</string>
     <string name="label_share">Share</string>
+    <string name="label_notes">Notes</string>
+    <string name="label_new_note">New Note</string>
+    <string name="label_note_details">Note Details</string>
 </resources>

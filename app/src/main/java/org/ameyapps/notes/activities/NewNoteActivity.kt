@@ -1,26 +1,20 @@
 package org.ameyapps.notes.activities
 
+
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.content.res.TypedArray
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import org.ameyapps.notes.R
 import org.ameyapps.notes.database.NotesDbHelper
 import org.ameyapps.notes.model.NoteInfo
-import java.text.DateFormat
-import java.util.*
-
-import android.graphics.drawable.GradientDrawable
 import org.ameyapps.notes.utils.Const
-
-
-import org.ameyapps.notes.utils.FontsManager
+import org.ameyapps.notes.utils.Log
 import org.ameyapps.notes.utils.Utils
 import kotlin.random.Random
 
@@ -31,10 +25,10 @@ class NewNoteActivity : AppCompatActivity() {
         val TAG = "NotesApp " + NewNoteActivity::class.java.simpleName
         var selectedColor: Int = -1
     }
-
     private var noteRootLinLayout: LinearLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_note)
         Log.d(TAG, "Create new note")
@@ -56,7 +50,7 @@ class NewNoteActivity : AppCompatActivity() {
         shareTextView.typeface = Const.robotoRegularTf
         titleEditText.typeface = Const.robotoRegularTf
         descpEditText.typeface = Const.robotoLightTf
-        textTime.typeface = Const.robotoRegularTf
+        textTime.typeface = Const.robotoLightTf
 
         bottomSheetLayout.visibility = View.GONE
 
@@ -74,10 +68,18 @@ class NewNoteActivity : AppCompatActivity() {
                 TAG,
                 "Note saved: ${noteInfo.id}, ${noteInfo.title}, ${noteInfo.description}, ${noteInfo.date}, ${noteInfo.color}"
             )
-            Utils.showToast(this@NewNoteActivity, "Note Saved")
-            val returnIntent = Intent()//Intent(this@NewNoteActivity, NewNoteActivity::class.java)
-            setResult(Activity.RESULT_OK, returnIntent)
-            finish()
+            val snackbar = Snackbar.make(it, "Note Saved", Snackbar.LENGTH_SHORT)
+            snackbar.show()
+            snackbar.setCallback(object :  Snackbar.Callback()  {
+                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                    super.onDismissed(transientBottomBar, event)
+                    Log.d(TAG, "Snackbar dismissed")
+                    val returnIntent = Intent()
+                    setResult(Activity.RESULT_OK, returnIntent)
+                    finish()
+                }
+            })
+
         }
 
         moreButton.setOnClickListener() {

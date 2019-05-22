@@ -1,12 +1,8 @@
 package org.ameyapps.notes.adapter
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.graphics.Typeface
 import android.os.Bundle
-import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +11,10 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import org.ameyapps.notes.R
-import org.ameyapps.notes.activities.NewNoteActivity
 import org.ameyapps.notes.activities.ViewNoteActivity
 import org.ameyapps.notes.model.NoteInfo
 import org.ameyapps.notes.utils.Const
-import org.ameyapps.notes.utils.FontsManager
+import org.ameyapps.notes.utils.Log
 
 class NotesViewHolder(inflater: LayoutInflater, parent: ViewGroup, var context: Activity) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.recycler_view_items_layout, parent, false)),
@@ -59,7 +54,6 @@ class NotesViewHolder(inflater: LayoutInflater, parent: ViewGroup, var context: 
 
         if (noteInfo.color != 1 || noteInfo.color != -1) {
             val colorToUse = noteInfo.color
-            Log.d(TAG, "N: $colorToUse")
             cardRootLinLayout?.setBackgroundColor(colorToUse!!)
             cardView?.setBackgroundColor(colorToUse!!)
         } else {

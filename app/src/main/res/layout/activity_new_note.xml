@@ -134,7 +134,7 @@
             android:layout_centerInParent="true"
             android:text="Edited at 10:10 AM"
             android:textColor="@color/main_text_color"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:visibility="gone"/>
 
         <ImageButton

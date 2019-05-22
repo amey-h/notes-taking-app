@@ -28,7 +28,7 @@
                 android:padding="5dp"
                 android:singleLine="true"
                 android:textColor="@color/main_text_color"
-                android:textSize="19sp" />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/vn_edittext_note_description"
@@ -39,8 +39,8 @@
                 android:background="@null"
                 android:hint="Your notes here!"
                 android:padding="5dp"
-                android:textColor="@color/dark_gray"
-                android:textSize="17sp" />
+                android:textColor="@color/options_text_color"
+                android:textSize="16sp" />
         </RelativeLayout>
     </ScrollView>
 
@@ -118,7 +118,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="10dp">
+        android:padding="10dp"
+        >
 
         <ImageButton
             android:id="@+id/vn_button_more"
@@ -134,7 +135,7 @@
             android:layout_centerInParent="true"
             android:text="Edited at 10:10 AM"
             android:textColor="@color/main_text_color"
-            android:textSize="15sp"
+            android:textSize="14sp"
             />
 
         <ImageButton

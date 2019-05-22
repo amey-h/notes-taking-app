@@ -7,12 +7,17 @@ import android.graphics.Typeface
 class FontsManager {
 
     fun getRobotoLightFont(context: Context): Typeface {
-        val typeface = Typeface.createFromAsset(context.assets, "fonts/RobotoCondensedLight.ttf")
+        val typeface = Typeface.createFromAsset(context.assets, "fonts/RobotoLight.ttf")
         return typeface
     }
 
     fun getRobotoRegularFont(context: Context): Typeface {
-        val typeface = Typeface.createFromAsset(context.assets, "fonts/RobotoCondensedRegular.ttf")
+        val typeface = Typeface.createFromAsset(context.assets, "fonts/RobotoRegular.ttf")
+        return typeface
+    }
+
+    fun getRobotoThinFont(context: Context): Typeface {
+        val typeface = Typeface.createFromAsset(context.assets, "fonts/RobotoThin.ttf")
         return typeface
     }
 }

@@ -6,8 +6,8 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
 import org.ameyapps.notes.model.NoteInfo
+import org.ameyapps.notes.utils.Log
 
 class NotesDbHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -77,7 +77,7 @@ class NotesDbHelper(context: Context) :
                 noteInfo.date = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DATE))
                 noteInfo.color = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_COLOR))
                 noteList.add(noteInfo)
-                Log.d(TAG, "fetched data from db date/color: ${noteInfo.id}, ${noteInfo.date}, ${noteInfo.color}")
+
             } while (cursor.moveToNext())
         }
         Log.d(TAG, "fetched data from db: ${noteList.size}, ")

@@ -1,14 +1,12 @@
 package org.ameyapps.notes.activities
 
+import android.app.ActionBar
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Typeface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -17,6 +15,7 @@ import org.ameyapps.notes.adapter.NotesRecyclerAdapter
 import org.ameyapps.notes.database.NotesDbHelper
 import org.ameyapps.notes.utils.Const
 import org.ameyapps.notes.utils.FontsManager
+import org.ameyapps.notes.utils.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton as FAB
 
 class NotesHomeActivity : AppCompatActivity() {
@@ -30,11 +29,15 @@ class NotesHomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val actionBar = supportActionBar
+        actionBar?.title = "Notes"
+
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
         val fab = findViewById<FAB>(R.id.fab)
         emptyMsgTextView = findViewById<TextView>(R.id.text_emptymsg)
         Const.robotoLightTf = FontsManager().getRobotoLightFont(this@NotesHomeActivity)
         Const.robotoRegularTf = FontsManager().getRobotoRegularFont(this@NotesHomeActivity)
+        //Const.robotoThintf = FontsManager().getRobotoThinFont(this@NotesHomeActivity)
 
         displayListView()
 

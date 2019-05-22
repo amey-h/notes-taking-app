@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import org.ameyapps.notes.BaseActivity
@@ -13,6 +12,7 @@ import org.ameyapps.notes.R
 import org.ameyapps.notes.database.NotesDbHelper
 import org.ameyapps.notes.model.NoteInfo
 import org.ameyapps.notes.utils.Const
+import org.ameyapps.notes.utils.Log
 import org.ameyapps.notes.utils.Utils
 
 class ViewNoteActivity : BaseActivity() {
@@ -58,7 +58,7 @@ class ViewNoteActivity : BaseActivity() {
         shareTextView.typeface = Const.robotoRegularTf
         titleEditText?.typeface = Const.robotoRegularTf
         descpEditText?.typeface = Const.robotoLightTf
-        timeTextView?.typeface = Const.robotoRegularTf
+        timeTextView?.typeface = Const.robotoLightTf
 
         bottomSheetLayout.visibility = View.GONE
 
@@ -66,7 +66,6 @@ class ViewNoteActivity : BaseActivity() {
 
         if(mNoteInfo != null) {
             Log.d(TAG, "NoteInfo title/descp : ${mNoteInfo?.title}, ${mNoteInfo?.description}")
-            Log.d(TAG, "NoteInfo date/color: ${mNoteInfo?.date}, ${mNoteInfo?.color}")
             selectedColor = mNoteInfo?.color!!
             setDataAndView()
         } else {
@@ -83,7 +82,7 @@ class ViewNoteActivity : BaseActivity() {
             notesDbHelper.updateNote(noteInfo)
             Log.d(TAG, "Note updated")
             Utils.showToast(this@ViewNoteActivity, "Note Updated")
-            val returnIntent = Intent()//Intent(this@NewNoteActivity, NewNoteActivity::class.java)
+            val returnIntent = Intent()
             setResult(Activity.RESULT_OK, returnIntent)
             finish()
         }
