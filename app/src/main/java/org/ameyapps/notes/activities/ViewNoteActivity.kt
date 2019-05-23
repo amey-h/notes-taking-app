@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import com.google.android.material.snackbar.Snackbar
 import org.ameyapps.notes.BaseActivity
 import org.ameyapps.notes.R
 import org.ameyapps.notes.database.NotesDbHelper
@@ -14,6 +15,7 @@ import org.ameyapps.notes.model.NoteInfo
 import org.ameyapps.notes.utils.Const
 import org.ameyapps.notes.utils.Log
 import org.ameyapps.notes.utils.Utils
+import kotlin.random.Random
 
 class ViewNoteActivity : BaseActivity() {
 
@@ -81,10 +83,7 @@ class ViewNoteActivity : BaseActivity() {
             noteInfo.color = selectedColor
             notesDbHelper.updateNote(noteInfo)
             Log.d(TAG, "Note updated")
-            Utils.showToast(this@ViewNoteActivity, "Note Updated")
-            val returnIntent = Intent()
-            setResult(Activity.RESULT_OK, returnIntent)
-            finish()
+            showSnackBar(it, "Note updated")
         }
 
         moreButton.setOnClickListener() {
@@ -94,6 +93,22 @@ class ViewNoteActivity : BaseActivity() {
                 bottomSheetLayout.visibility = View.VISIBLE
                 generateCircularColorLayout(linearLayout)
             }
+        }
+
+        copyTextView.setOnClickListener() {
+            val noteInfo = NoteInfo()
+            noteInfo.id = Random.nextInt()
+            noteInfo.title = titleEditText?.text.toString()
+            noteInfo.description = descpEditText?.text.toString()
+            noteInfo.date = Utils.getDate()
+            noteInfo.color = mNoteInfo?.color!!
+            notesDbHelper.addNote(noteInfo)
+            showSnackBar(it, "Note copied")
+        }
+
+        deleteTextView.setOnClickListener() {
+            notesDbHelper.deleteNote(mNoteInfo!!)
+            showSnackBar(it, "Note deleted")
         }
     }
 
@@ -141,5 +156,19 @@ class ViewNoteActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    private fun showSnackBar(it: View, message: String) {
+        val snackbar = Snackbar.make(it, message, Snackbar.LENGTH_SHORT)
+        snackbar.show()
+        snackbar.addCallback(object :  Snackbar.Callback()  {
+            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                super.onDismissed(transientBottomBar, event)
+                Log.d(NewNoteActivity.TAG, "Snackbar dismissed")
+                val returnIntent = Intent()
+                setResult(Activity.RESULT_OK, returnIntent)
+                finish()
+            }
+        })
     }
 }

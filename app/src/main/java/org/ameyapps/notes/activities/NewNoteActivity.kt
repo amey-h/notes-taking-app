@@ -68,17 +68,7 @@ class NewNoteActivity : AppCompatActivity() {
                 TAG,
                 "Note saved: ${noteInfo.id}, ${noteInfo.title}, ${noteInfo.description}, ${noteInfo.date}, ${noteInfo.color}"
             )
-            val snackbar = Snackbar.make(it, "Note Saved", Snackbar.LENGTH_SHORT)
-            snackbar.show()
-            snackbar.setCallback(object :  Snackbar.Callback()  {
-                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                    super.onDismissed(transientBottomBar, event)
-                    Log.d(TAG, "Snackbar dismissed")
-                    val returnIntent = Intent()
-                    setResult(Activity.RESULT_OK, returnIntent)
-                    finish()
-                }
-            })
+            showSnackBar(it, "Note saved")
 
         }
 
@@ -89,6 +79,17 @@ class NewNoteActivity : AppCompatActivity() {
                 bottomSheetLayout.visibility = View.VISIBLE
                 generateCircularColorLayout(linearLayout)
             }
+        }
+
+        copyTextView.setOnClickListener() {
+            val noteInfo = NoteInfo()
+            noteInfo.id = Random.nextInt()
+            noteInfo.title = titleEditText.text.toString()
+            noteInfo.description = descpEditText.text.toString()
+            noteInfo.date = Utils.getDate()
+            noteInfo.color = selectedColor
+            notesDbHelper.addNote(noteInfo)
+            showSnackBar(it, "Note copied")
         }
 
     }
@@ -131,5 +132,19 @@ class NewNoteActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun showSnackBar(it: View, message: String) {
+        val snackbar = Snackbar.make(it, message, Snackbar.LENGTH_SHORT)
+        snackbar.show()
+        snackbar.addCallback(object :  Snackbar.Callback()  {
+            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                super.onDismissed(transientBottomBar, event)
+                Log.d(TAG, "Snackbar dismissed")
+                val returnIntent = Intent()
+                setResult(Activity.RESULT_OK, returnIntent)
+                finish()
+            }
+        })
     }
 }

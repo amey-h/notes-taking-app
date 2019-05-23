@@ -107,4 +107,21 @@ class NotesDbHelper(context: Context) :
         }
         dbWriter.close()
     }
+
+    fun deleteNote(noteInfo: NoteInfo) {
+        Log.d(TAG, "delete Note")
+        val dbWriter = writableDatabase
+        val selection = COLUMN_ID + " = ?"
+        Log.d(TAG, "selection: $selection")
+        val selectionArgs = arrayOf(noteInfo.id.toString())
+        Log.d(TAG, "selectionArgs: ${selectionArgs}")
+        val deleteVal = dbWriter.delete(TABLE_NAME, selection, selectionArgs)
+        Log.d(TAG, "Delete Value: ${deleteVal}")
+        if (deleteVal >= 1) {
+            Log.d(TAG, "Note deleted")
+        } else {
+            Log.w(TAG, "Note not deleted")
+        }
+        dbWriter.close()
+    }
 }
