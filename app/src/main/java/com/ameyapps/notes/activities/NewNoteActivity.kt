@@ -92,6 +92,19 @@ class NewNoteActivity : AppCompatActivity() {
             showSnackBar(it, this.resources.getString(R.string.label_note_copied))
         }
 
+        shareTextView.setOnClickListener() {
+            Log.d(ViewNoteActivity.TAG, "Sharing notes")
+            val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
+            sharingIntent.type = "text/plain"
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, titleEditText?.text.toString())
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, descpEditText?.text.toString())
+            startActivity(Intent.createChooser(sharingIntent, this.resources.getString(R.string.label_share_via)))
+        }
+
+        deleteTextView.setOnClickListener() {
+            showSnackBar(it, this.resources.getString(R.string.label_note_discard))
+        }
+
     }
 
 
