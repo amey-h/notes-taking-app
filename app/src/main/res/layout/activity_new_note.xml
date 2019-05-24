@@ -3,8 +3,8 @@
     android:id="@+id/note_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <ScrollView
         android:id="@+id/scroll_view"
@@ -51,6 +51,7 @@
         android:background="@color/back_gray_translucent"
         android:elevation="3dp"
         android:padding="15dp"
+        android:alpha="0.9"
         android:visibility="visible">
 
         <HorizontalScrollView
@@ -117,6 +118,7 @@
         android:id="@+id/bottom_rel_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:alpha="0.9"
         android:background="@color/white"
         android:padding="10dp">
 
@@ -135,7 +137,7 @@
             android:text="Edited at 10:10 AM"
             android:textColor="@color/main_text_color"
             android:textSize="14sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <ImageButton
             android:id="@+id/button_save"

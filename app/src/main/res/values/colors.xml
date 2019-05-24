@@ -21,6 +21,7 @@
     <color name="back_gray_translucent">#EFFAFAFA</color>
     <color name="success_color">#128B03</color>
     <color name="fingerprint_register_color">#009B82</color>
+    <color name="back_white_translucent">#EFFFFFFF</color>
 
     <color name="high_yellow">#ffee58</color>
     <color name="high_orange">#ffa726</color>
