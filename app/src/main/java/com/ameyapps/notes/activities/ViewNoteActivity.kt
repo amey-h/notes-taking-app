@@ -2,10 +2,12 @@ package com.ameyapps.notes.activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.google.android.material.snackbar.Snackbar
 import com.ameyapps.notes.BaseActivity
@@ -15,6 +17,7 @@ import com.ameyapps.notes.model.NoteInfo
 import com.ameyapps.notes.utils.Const
 import com.ameyapps.notes.utils.Log
 import com.ameyapps.notes.utils.Utils
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlin.random.Random
 
 class ViewNoteActivity : BaseActivity() {
@@ -29,9 +32,10 @@ class ViewNoteActivity : BaseActivity() {
     private var titleEditText: TextView? = null
     private var descpEditText: TextView? = null
     private var timeTextView: TextView? = null
+    private var bottomSheetBehavior: BottomSheetBehavior<RelativeLayout>? = null
 
     override fun getResourceLayout(): Int {
-        return R.layout.activity_view_note
+        return R.layout.view_note
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,13 +51,14 @@ class ViewNoteActivity : BaseActivity() {
         descpEditText = findViewById<EditText>(R.id.vn_edittext_note_description)
         timeTextView = findViewById<TextView>(R.id.vn_text_time)
 
-        val saveButton = findViewById<ImageButton>(R.id.vn_button_save)
-        val moreButton = findViewById<ImageButton>(R.id.vn_button_more)
+        val saveButton = findViewById<ImageView>(R.id.vn_button_save)
+        val moreButton = findViewById<ImageView>(R.id.vn_button_more)
         val bottomSheetLayout = findViewById<RelativeLayout>(R.id.vn_bottom_sheet_rel_layout)
         val linearLayout = findViewById<LinearLayout>(R.id.vn_color_linear_layout)
         val copyTextView = findViewById<TextView>(R.id.vn_text_copy)
         val deleteTextView = findViewById<TextView>(R.id.vn_text_delete)
         val shareTextView = findViewById<TextView>(R.id.vn_text_share)
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout)
 
         copyTextView.typeface = Const.robotoRegularTf
         deleteTextView.typeface = Const.robotoRegularTf
@@ -62,7 +67,8 @@ class ViewNoteActivity : BaseActivity() {
         descpEditText?.typeface = Const.robotoLightTf
         timeTextView?.typeface = Const.robotoLightTf
 
-        bottomSheetLayout.visibility = View.GONE
+        bottomSheetLayout.visibility = View.VISIBLE
+        generateCircularColorLayout(linearLayout)
 
         val notesDbHelper = NotesDbHelper(this@ViewNoteActivity)
 
@@ -87,12 +93,18 @@ class ViewNoteActivity : BaseActivity() {
         }
 
         moreButton.setOnClickListener() {
-            if (bottomSheetLayout.visibility == View.VISIBLE) {
+            if (bottomSheetBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
+                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+            } else {
+                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+            /*if (bottomSheetLayout.visibility == View.VISIBLE) {
                 bottomSheetLayout.visibility = View.GONE
             } else {
                 bottomSheetLayout.visibility = View.VISIBLE
                 generateCircularColorLayout(linearLayout)
-            }
+            }*/
+
         }
 
         copyTextView.setOnClickListener() {

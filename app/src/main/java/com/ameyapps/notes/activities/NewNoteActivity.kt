@@ -15,8 +15,12 @@ import com.ameyapps.notes.model.NoteInfo
 import com.ameyapps.notes.utils.Const
 import com.ameyapps.notes.utils.Log
 import com.ameyapps.notes.utils.Utils
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import kotlin.random.Random
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
 
 
 class NewNoteActivity : AppCompatActivity() {
@@ -25,18 +29,20 @@ class NewNoteActivity : AppCompatActivity() {
         val TAG = "NotesApp " + NewNoteActivity::class.java.simpleName
         var selectedColor: Int = -1
     }
+
     private var noteRootLinLayout: LinearLayout? = null
+    private var bottomSheetBehavior: BottomSheetBehavior<RelativeLayout>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_note)
+        setContentView(R.layout.new_note)
         Log.d(TAG, "Create new note")
 
         val titleEditText = findViewById<EditText>(R.id.edittext_note_title)
         val descpEditText = findViewById<EditText>(R.id.edittext_note_description)
-        val saveButton = findViewById<ImageButton>(R.id.button_save)
-        val moreButton = findViewById<ImageButton>(R.id.button_more)
+        val saveButton = findViewById<ImageView>(R.id.button_save)
+        val moreButton = findViewById<ImageView>(R.id.button_more)
         val bottomSheetLayout = findViewById<RelativeLayout>(R.id.bottom_sheet_rel_layout)
         val linearLayout = findViewById<LinearLayout>(R.id.color_linear_layout)
         noteRootLinLayout = findViewById<LinearLayout>(R.id.note_root_layout)
@@ -52,9 +58,19 @@ class NewNoteActivity : AppCompatActivity() {
         descpEditText.typeface = Const.robotoLightTf
         textTime.typeface = Const.robotoLightTf
 
-        bottomSheetLayout.visibility = View.GONE
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout)
+
+        bottomSheetLayout.visibility = View.VISIBLE
+        generateCircularColorLayout(linearLayout)
 
         val notesDbHelper = NotesDbHelper(this@NewNoteActivity)
+        /*if (bottomSheetLayout.visibility == View.VISIBLE) {
+            bottomSheetLayout.visibility = View.GONE
+        } else {
+            bottomSheetLayout.visibility = View.VISIBLE
+            generateCircularColorLayout(linearLayout)
+        }*/
+
 
         saveButton.setOnClickListener() {
             val noteInfo = NoteInfo()
@@ -73,11 +89,10 @@ class NewNoteActivity : AppCompatActivity() {
         }
 
         moreButton.setOnClickListener() {
-            if (bottomSheetLayout.visibility == View.VISIBLE) {
-                bottomSheetLayout.visibility = View.GONE
+            if (bottomSheetBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
+                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
             } else {
-                bottomSheetLayout.visibility = View.VISIBLE
-                generateCircularColorLayout(linearLayout)
+                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
             }
         }
 
@@ -150,7 +165,7 @@ class NewNoteActivity : AppCompatActivity() {
     private fun showSnackBar(it: View, message: String) {
         val snackbar = Snackbar.make(it, message, Snackbar.LENGTH_SHORT)
         snackbar.show()
-        snackbar.addCallback(object :  Snackbar.Callback()  {
+        snackbar.addCallback(object : Snackbar.Callback() {
             override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                 super.onDismissed(transientBottomBar, event)
                 Log.d(TAG, "Snackbar dismissed")
