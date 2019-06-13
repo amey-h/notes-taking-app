@@ -4,4 +4,5 @@
     <dimen name="circle_margin">18dp</dimen>
     <dimen name="opt_text_size">17sp</dimen>
     <dimen name="opt_text_drawable_padding">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

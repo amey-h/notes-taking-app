@@ -16,4 +16,6 @@
     <string name="label_last_edit">Last edit on</string>
     <string name="label_note_discard">Note discarded</string>
     <string name="label_share_via">Share via</string>
+    <string name="title_search">Search</string>
+    <string name="title_activity_search_result">Search Results</string>
 </resources>
